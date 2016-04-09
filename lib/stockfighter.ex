@@ -11,21 +11,36 @@ defmodule Stockfighter do
     System.get_env("STOCKFIGHTER_API_KEY")
   end
 
-  def calculate_midpoint(venue, stock) do
+  def calculate_high_bid(bids) do
+    Enum.map(bids, fn(bid) -> Map.get(bid, "price") end) |> Enum.max
+  end
+
+  def calculate_low_offer(asks) do
+    Enum.map(asks, fn(asks) -> Map.get(asks, "price") end) |> Enum.min
+  end
+
+  def calculate_midpoint_price(order_book) do
+    high_bid = Map.get(order_book, "bids") |> calculate_high_bid
+    low_ask = Map.get(order_book, "asks") |> calculate_low_offer
+
+    midpoint = (high_bid + low_ask) / 2 |> round
+    IO.puts "MidPoint of Market Calculated: #{midpoint}"
+    midpoint
+  end
+
+  def current_order_book(venue, stock) do
     case HTTPoison.get("#{api_base_url}/venues/#{venue}/stocks/#{stock}") do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        IO.puts body
-
+        Poison.decode!(body)
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
-
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
     end
   end
 
   def current_market_midpoint_price(venue, stock) do
-    calculate_midpoint(venue, stock)
+    current_order_book(venue, stock) |> calculate_midpoint_price
   end
 
   def fulfill_block_trade(info) do

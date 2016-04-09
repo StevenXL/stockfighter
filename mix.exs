@@ -16,6 +16,6 @@ defmodule Stockfighter.Mixfile do
   end
 
   defp deps do
-    [{:httpoison, "~> 0.8.0"}]
+    [{:httpoison, "~> 0.8.0"}, {:poison, "~> 2.0"}]
   end
 end
