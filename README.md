@@ -1,20 +1,10 @@
 # Stockfighter
 
-**TODO: Add description**
+Stockfighter is a command-line tool to solve the
+[Stockfighter](https://www.stockfighter.io) Capture the Flag games.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
-  1. Add stockfighter to your list of dependencies in `mix.exs`:
-
-        def deps do
-          [{:stockfighter, "~> 0.0.1"}]
-        end
-
-  2. Ensure stockfighter is started before your application:
-
-        def application do
-          [applications: [:stockfighter]]
-        end
-
+1. Run `mix deps.get` to ensure that all dependencies are installed.
+2. Build the command-line script using `mix escript.build`.
+3. Run `./stockfighter` for instructions.
