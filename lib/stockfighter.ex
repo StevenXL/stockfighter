@@ -34,8 +34,10 @@ defmodule Stockfighter do
         Poison.decode!(body)
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Not found :("
+        nil
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
+        nil
     end
   end
 
